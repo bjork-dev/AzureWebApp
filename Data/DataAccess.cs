@@ -42,7 +42,7 @@ namespace AzureWebApp.Data
 
         public async Task<HttpResponseMessage> PostAsync(Todo todo)
         {
-            string code = await GetSecret("GetTodo");
+            string code = await GetSecret("AddTodo");
             var json = JsonSerializer.Serialize(todo);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
             HttpResponseMessage response = await _client.PostAsync($"https://todo-project.azurewebsites.net/api/todo?code={code}", data);
