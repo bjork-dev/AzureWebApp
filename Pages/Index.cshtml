@@ -4,7 +4,74 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">adsasdadsdsa</h1>
-    <p>dsadsadsasadsadsaddsa</p>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!-- Todo Grid Items-->
+<div class="row justify-content-center">
+
+    @foreach (var todo in Model.Todo)
+    {
+        <!-- Todo Item -->
+        <div class="col-md-6 col-lg-4 mb-5">
+            <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#@todo.Id">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        @todo.Title
+                        <br/>
+                        <strong>Click for details</strong>
+                        <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                            <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 </div>
+
+@foreach (var todo in Model.Todo)
+{
+    <div class="portfolio-modal modal fade" id="@todo.Id" tabindex="-1" aria-labelledby="@todo.Id" aria-hidden="true" style="display: none">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
+                <div class="modal-body text-center pb-5">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <!-- Portfolio Modal - Title-->
+                                <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">@todo.Title</h2>
+                                <!-- Icon Divider-->
+                                <div class="divider-custom">
+                                    <div class="divider-custom-line"></div>
+                                    <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                                    <div class="divider-custom-line"></div>
+                                </div>
+                                <!-- Portfolio Modal - Text-->
+                                <h4 class="mb-4">@todo.Description</h4>
+                                <h3>Due by: @todo.DueBy</h3>
+                                <form method="post">
+                                <button class="btn btn-danger" type="submit" asp-page-handler="Delete" asp-route-id="@todo.Id">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<h2>Add A New Todo</h2>
+
+<form method="post">
+    Title:
+    <input asp-for="AddTodo.Title" required class="form-control">
+    Description:
+    <input asp-for="AddTodo.Description" required class="form-control">
+    <br />
+    Due By:
+    <input asp-for="AddTodo.DueBy" required class="form-control">
+    <br />
+    <input type="submit" value="Add" class="btn btn-primary btn-lg btn-block" />
+</form>
