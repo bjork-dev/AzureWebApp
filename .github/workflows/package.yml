@@ -3,17 +3,6 @@ name: Build App & Push to container registry
 on: [push]
   
 jobs:
-    build-app:
-      runs-on: windows-latest
-      steps:
-      - name: 'Checkout GitHub Action'
-        uses: actions/checkout@master
-
-      - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
-
     build-and-push-package:
         runs-on: ubuntu-latest
         env: 
@@ -21,13 +10,20 @@ jobs:
         steps:
         - name: Checkout code
           uses: actions/checkout@master
+          
+        - name: Setup .NET ${{ env.DOTNET_VERSION }} Environment
+          uses: actions/setup-dotnet@v1
+          with:
+            dotnet-version: ${{ env.DOTNET_VERSION }}
+            
         - name: Login to GitHub Container Registry
           uses: docker/login-action@v1.10.0
           with:
              registry: ghcr.io
              username: ${{ github.actor }};
              password: ${{ secrets.GITHUB_TOKEN }}
-        - name: Build and push
+             
+        - name: Build and push container package
           id: docker_build
           uses: docker/build-push-action@v2.7.0
           with:
