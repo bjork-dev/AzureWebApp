@@ -57,7 +57,8 @@ namespace AzureWebApp.Data
 
         private async Task<string> GetSecret(string secretName)
         {
-            var client = new SecretClient(new Uri("https://bjorkdev.vault.azure.net/"), new DefaultAzureCredential(), _options);
+            var azure = new DefaultAzureCredentialOptions { ExcludeVisualStudioCredential = true };
+            var client = new SecretClient(new Uri("https://bjorkdev.vault.azure.net/"), new DefaultAzureCredential(azure), _options);
             KeyVaultSecret secret = await client.GetSecretAsync(secretName);
             return secret.Value;
         }

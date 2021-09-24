@@ -9,14 +9,14 @@
 <!-- Todo Grid Items-->
 <div class="row justify-content-center">
 
-    @foreach (var todo in Model.Todo)
+    @for (int i = 0; i < Model.Todo.Length; i++)
     {
         <!-- Todo Item -->
         <div class="col-md-6 col-lg-4 mb-5">
-            <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#@todo.Id">
+            <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#bnag-@i">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
-                        @todo.Title
+                        @Model.Todo[i].Title
                         <br/>
                         <strong>Click for details</strong>
                         <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
@@ -29,9 +29,9 @@
     }
 </div>
 
-@foreach (var todo in Model.Todo)
+@for (int i = 0; i < Model.Todo.Length; i++)
 {
-    <div class="portfolio-modal modal fade" id="@todo.Id" tabindex="-1" aria-labelledby="@todo.Id" aria-hidden="true" style="display: none">
+    <div class="portfolio-modal modal fade" id="bnag-@i" tabindex="-1" aria-labelledby="@Model.Todo[i].Title" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header border-0"><button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button></div>
@@ -40,7 +40,7 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-8">
                                 <!-- Portfolio Modal - Title-->
-                                <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">@todo.Title</h2>
+                                <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">@Model.Todo[i].Title</h2>
                                 <!-- Icon Divider-->
                                 <div class="divider-custom">
                                     <div class="divider-custom-line"></div>
@@ -48,10 +48,10 @@
                                     <div class="divider-custom-line"></div>
                                 </div>
                                 <!-- Portfolio Modal - Text-->
-                                <h4 class="mb-4">@todo.Description</h4>
-                                <h3>Due by: @todo.DueBy</h3>
+                                <h4 class="mb-4">@Model.Todo[i].Description</h4>
+                                <h3>Due by: @Model.Todo[i].DueBy</h3>
                                 <form method="post">
-                                <button class="btn btn-danger" type="submit" asp-page-handler="Delete" asp-route-id="@todo.Id">Delete</button>
+                                    <button class="btn btn-danger" type="submit" asp-page-handler="Delete" asp-route-id="@Model.Todo[i].Id">Delete</button>
                                 </form>
                             </div>
                         </div>
